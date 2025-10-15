@@ -1,0 +1,29 @@
+.TodoManager {
+    width: 100%;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    button {
+        margin-left: 8px
+    }
+
+    .trash-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    &-Delete {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        margin-left: auto;
+
+        svg {
+            width: 24px;
+            height: 24px;
+            fill: #fff;
+        }
+    }
+}
