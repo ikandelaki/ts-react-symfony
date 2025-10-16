@@ -1,0 +1,15 @@
+.ContentComponent {
+    width: 100%;
+    
+    .Todo {
+        &-Item {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            &_isChecked {
+                text-decoration: line-through;
+            }
+        }
+    }
+}

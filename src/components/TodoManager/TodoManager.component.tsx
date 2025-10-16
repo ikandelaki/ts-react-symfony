@@ -1,11 +1,11 @@
-import { useContext, useState, type FormEvent } from 'react';
+import { memo, useContext, useState, type FormEvent } from 'react';
 import { INPUT_NAME } from './TodoManager.config.ts'
 import TodoContext from '../../contexts/TodoContext.ts'
-import TrashIcon from '../../assets/trash-bin.svg'
 import './TodoManager.style.scss'
 import DeleteIcon from '../DeleteIcon/DeleteIcon.component.tsx'
+import { isEqual } from 'lodash'
 
-export default function TodoManagerComponent() {
+export function TodoManagerComponent() {
     const [ value, setValue ] = useState('');
     const { createTodo, deleteTodoList } = useContext(TodoContext);
 
@@ -37,3 +37,11 @@ export default function TodoManagerComponent() {
         </>
     );
 }
+
+export default memo(TodoManagerComponent, (prevProps, props) => {
+    if (isEqual(prevProps, props)) {
+        return true;
+    }
+
+    return false;
+})

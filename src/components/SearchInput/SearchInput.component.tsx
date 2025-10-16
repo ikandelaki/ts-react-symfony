@@ -8,7 +8,7 @@ type SearchInputComponentProps = {
 export default function SearchInputComponent({ search, setSearch }: SearchInputComponentProps) {
     return (
         <div className="SearchInputComponent">
-            <form>
+            <form onSubmit={ (e) => e.preventDefault() }>
                 <input
                     type="text"
                     role="search"

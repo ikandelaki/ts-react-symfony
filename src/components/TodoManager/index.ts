@@ -1,1 +1,1 @@
-export { default } from './TodoManager.container'
+export { default } from './TodoManager.component'
