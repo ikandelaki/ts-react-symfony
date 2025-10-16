@@ -1,14 +1,19 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState, useReducer } from 'react'
 import './App.css'
 import TodoContext from '../../contexts/TodoContext.ts'
 import TodoManager from '../TodoManager/index.ts'
-import { type TodoItemsInterface } from '../../types/TodoItemsInterface.ts'
-import { TODO_ITEMS } from './App.config.ts'
 import Content from '../Content/Content.component.tsx'
 import SearchInput from '../SearchInput/SearchInput.component.tsx'
+import TodoReducer, {
+  initialState,
+  DELETE_TODO_ITEMS,
+  CREATE_TODO,
+  DELETE_TODO_ITEM,
+  UPDATE_IS_TODO_ITEM_CHECKED
+} from '../../reducers/TodoReducer.ts'
 
 function App() {
-  const [todos, setTodos] = useState<TodoItemsInterface[]>(JSON.parse(localStorage.getItem(TODO_ITEMS) ?? ''));
+  const [todos, dispatch] = useReducer(TodoReducer, initialState);
   const [search, setSearch] = useState<string>('');
 
   const filteredItems = useMemo(
@@ -16,44 +21,21 @@ function App() {
     [todos, search]
   );
 
-  const setAndSaveItems = (newItems: TodoItemsInterface[] = []) => {
-    setTodos(newItems);
-    localStorage.setItem(TODO_ITEMS, JSON.stringify(newItems))
-  }
-
   const createTodo = useCallback((name: string) => {
-    const id = todos?.length ? todos[todos.length - 1].id + 1 : 1;
-    const newTodo = { id, name, checked: false };
-    const newItems = [ ...todos, newTodo ];
-
-    setAndSaveItems(newItems);
-  }, [todos])
+    dispatch({ type: CREATE_TODO, payload: { name } })
+  }, [dispatch]);
 
   const deleteTodoList = useCallback(() => {
-    if (!todos?.length) {
-      return;
-    }
-
-    setAndSaveItems([]);
-  }, [todos])
+    dispatch({ type: DELETE_TODO_ITEMS })
+  }, [dispatch]);
 
   const deleteTodoItem = useCallback((id: number) => {
-    const newTodos = todos.filter((todo) => todo.id !== id);
-
-    setAndSaveItems(newTodos);
-  }, [todos])
+    dispatch({ type: DELETE_TODO_ITEM, payload: { id } })
+  }, [dispatch]);
 
   const updateIsTodoItemChecked = useCallback((id: number) => {
-    const newTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        return { ...todo, checked: !todo.checked };
-      }
-
-      return todo;
-    })
-
-    setAndSaveItems(newTodos);
-  }, [todos])
+    dispatch({ type: UPDATE_IS_TODO_ITEM_CHECKED, payload: { id } })
+  }, [dispatch]);
 
   const contextValue = useMemo(() => ({ createTodo, deleteTodoList }), [createTodo, deleteTodoList])
 

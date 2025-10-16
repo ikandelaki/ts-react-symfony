@@ -1,9 +1,8 @@
 import { memo, useContext, useState, type FormEvent } from 'react';
-import { INPUT_NAME } from './TodoManager.config.ts'
-import TodoContext from '../../contexts/TodoContext.ts'
-import './TodoManager.style.scss'
-import DeleteIcon from '../DeleteIcon/DeleteIcon.component.tsx'
-import { isEqual } from 'lodash'
+import { INPUT_NAME } from './TodoManager.config.ts';
+import TodoContext from '../../contexts/TodoContext.ts';
+import './TodoManager.style.scss';
+import DeleteIcon from '../DeleteIcon/DeleteIcon.component.tsx';
 
 export function TodoManagerComponent() {
     const [ value, setValue ] = useState('');
@@ -38,10 +37,4 @@ export function TodoManagerComponent() {
     );
 }
 
-export default memo(TodoManagerComponent, (prevProps, props) => {
-    if (isEqual(prevProps, props)) {
-        return true;
-    }
-
-    return false;
-})
+export default memo(TodoManagerComponent)
